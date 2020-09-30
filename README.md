@@ -1,4 +1,4 @@
-#
+# sectionGrader README
 ## Data used by sectionGrader
 
 ### Roster file
@@ -20,7 +20,7 @@
 'Start' str # Date format is `MM-DD`
 
 ### Deadline file
-Currently hypothetical, no suck file exists to my knowledge
+Currently hypothetical, no such file exists to my knowledge
 Doesn't need to exist?
 - Accepted by `get_deadlines()`
 Should have
