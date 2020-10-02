@@ -29,7 +29,8 @@ class Student:
             # due date + 6days +- 24 hourrange
             attempt_date = pick_time(due, 72, 72)
         
-        # make attempt if there's not previous sucesses, maybe make attempt if there are
+        # make attempt if there's not previous sucesses,
+        # maybe make attempt if there are
         if (random.random()<(1 - 0.9*self.successes[week])):
             # check if attempt is right (70% chance each time)
             if (random.random() < 0.7):
@@ -50,7 +51,6 @@ class Student:
     def asdict(self):
         return {'Username':self.name, 'Section': self.section['section']}
 
-            
 
 class Course:
     """Course class"""
@@ -65,7 +65,8 @@ class Course:
                 self.sections = list(csv.DictReader(deadline_file))
         else:
             self.sections=sections
-            
+
+        self.start = self.get_start()            
 
         # Create students
         for section in self.sections:
@@ -114,80 +115,30 @@ class Course:
             for path in file_names:
                 writer.writerow([path])
 
+    def get_start(self):
+        starts = []
+        for section in self.sections:
+            starts.append(
+                datetime.datetime.strptime(section["start"],"%Y-%m-%d-%H"))
+        
+        starts.sort()
+        return starts[0]
+
 def pick_time(target, hours_offset, hours_spread):
         dhours = hours_offset + random.uniform(-hours_spread,hours_spread)
         delta = datetime.timedelta(hours=dhours)
         return target + delta
 
 
-AD1 = {
-    "label":"AD1",
-    "size": 13,
-    "start": "2019-01-14-12"
-}
-
-AD2 = {
-    "label":"AD2",
-    "size": 14,
-    "start": "2019-01-14-13"
-}
-
-AD3 = {
-    "label":"AD3",
-    "size": 11,
-    "start": "2019-01-14-14"
-}
-
-AD4 = {
-    "label":"AD4",
-    "size": 12,
-    "start": "2019-01-14-15"
-}
-
-AD5 = {
-    "label":"AD5",
-    "size": 23,
-    "start": "2019-01-15-08"
-}
-
-AD6 = {
-    "label":"AD6",
-    "size": 17,
-    "start": "2019-01-15-09"
-}
-
-AD7 = {
-    "label":"AD7",
-    "size": 16,
-    "start": "2019-01-15-12"
-}
-
-ADA = {
-    "label":"ADA",
-    "size": 16,
-    "start": "2019-01-15-13"
-}
-
 test_course = Course(length=3)
-
-
 
 random.seed(0)
 test_course.run()
 
 
-# In[ ]:
+print('There were '+str(len(test_course.submissions))+' submissions generated')
 
 
-print('there were ' +  str(len(test_course.submissions)) + ' submissions generated')
-
-
-
-test_course.write_files()
-
-
-# In[ ]:
-
-
-
+# test_course.write_files()
+print(test_course.start)
 
