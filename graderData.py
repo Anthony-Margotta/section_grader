@@ -111,9 +111,11 @@ class Course:
         # Create submssion info file
         with open('submission_info.csv', 'w', newline='') as infofile:
             writer = csv.writer(infofile)
-            writer.writerow(['path'])
-            for path in file_names:
-                writer.writerow([path])
+            writer.writerow(['path', 'start'])
+            for i,path in enumerate(file_names):
+                start = self.start + datetime.timedelta(weeks=i)
+                writer.writerow([path, start.strftime('%m-%d')])
+                
 
     def get_start(self):
         starts = []
@@ -139,6 +141,4 @@ test_course.run()
 print('There were '+str(len(test_course.submissions))+' submissions generated')
 
 
-# test_course.write_files()
-print(test_course.start)
-
+test_course.write_files()
