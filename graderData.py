@@ -42,7 +42,7 @@ class Student:
             gradebook.append(
                 (self.name,
                  self.section.get("label"),
-                 attempt_date.strftime("%Y-%m-%d-%H"),
+                 attempt_date.strftime("%Y-%m-%dT%H"),
                  correct,
                  week+1)
             )

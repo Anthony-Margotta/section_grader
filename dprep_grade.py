@@ -16,13 +16,8 @@ def get_deadlines(month, day):
         deadline_dict = csv.DictReader(deadline_file)
         first_week = {}
         for row in deadline_dict:
-            start = datetime.datetime(
-                year = row['Year'],
-                month = row['Month'],
-                day = row['Day'],
-                hour = row['Hour']
-            )
-            first_week[row['Section']] = start
+            start = datetime.datetime.strptime(row["start"],"%Y-%m-%d-%H")
+            first_week[row['section']] = start
     # first_week = {'AD1': datetime.datetime(year=2019, month=1, day=14, hour=12),
     #               'AD2': datetime.datetime(year=2019, month=1, day=14, hour=13),
     #               'AD3': datetime.datetime(year=2019, month=1, day=14, hour=14),
@@ -87,7 +82,7 @@ def get_info(info_filename):
         info_dict = csv.DictReader(info_file)
         info = {}
         for row in info_dict:
-            info[row['Path']] = list(map(int,row['Start'].split('-')))
+            info[row['path']] = list(map(int,row['start'].split('-')))
     return info
 
 
