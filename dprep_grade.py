@@ -59,7 +59,7 @@ def grade_submissions(submissions, roster, deadlines):
         user = sub['UID'].split('@')[0]
         score = 0
         if user in roster:
-            if sub_date < deadlines[roster[user]] and sub['Correct'] == 'TRUE':
+            if sub_date < deadlines[roster[user]] and sub['Correct'].upper() == 'TRUE':
                 score = 1
             if grades[user] != 1:
                 grades[user] = score
