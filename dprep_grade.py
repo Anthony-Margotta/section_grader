@@ -2,7 +2,8 @@ import csv
 import datetime
 
 def get_roster(roster_filename):
-    with open('roster.csv') as roster_file:
+    """Loads the course roster from specified csv"""
+    with open(roster_filename) as roster_file:
         roster_dict = csv.DictReader(roster_file)
         roster = {}
         for row in roster_dict:
@@ -12,23 +13,13 @@ def get_roster(roster_filename):
 
 
 def get_deadlines(month, day):
+    """Returns deadline for given week"""
     with open('deadlines.csv') as deadline_file:
         deadline_dict = csv.DictReader(deadline_file)
         first_week = {}
         for row in deadline_dict:
             start = datetime.datetime.strptime(row["start"],"%Y-%m-%d-%H")
             first_week[row['section']] = start
-    # first_week = {'AD1': datetime.datetime(year=2019, month=1, day=14, hour=12),
-    #               'AD2': datetime.datetime(year=2019, month=1, day=14, hour=13),
-    #               'AD3': datetime.datetime(year=2019, month=1, day=14, hour=14),
-    #               'AD4': datetime.datetime(year=2019, month=1, day=14, hour=15),
-    #               'AD5': datetime.datetime(year=2019, month=1, day=14, hour=16),
-    #               'AD7': datetime.datetime(year=2019, month=1, day=15, hour=14),
-    #               'AD8': datetime.datetime(year=2019, month=1, day=15, hour=15),
-    #               'AD9': datetime.datetime(year=2019, month=1, day=15, hour=16),
-    #               'ADC': datetime.datetime(year=2019, month=1, day=17, hour=9),
-    #               'ADD': datetime.datetime(year=2019, month=1, day=17, hour=10),
-    #               'ADE': datetime.datetime(year=2019, month=1, day=17, hour=11)}
 
     date_dif = date_offset(first_week, month, day)
 
@@ -59,14 +50,11 @@ def grade_submissions(submissions, roster, deadlines):
         user = sub['UID'].split('@')[0]
         score = 0
         if user in roster:
-            if sub_date < deadlines[roster[user]] and sub['Correct'].upper() == 'TRUE':
+            if (sub_date < deadlines[roster[user]] and 
+                    sub['Correct'].upper() == 'TRUE'):
                 score = 1
             if grades[user] != 1:
                 grades[user] = score
-            # if sub_date < deadlines[roster[user]] and sub['Score'] is not '':
-            #     score = float(sub['Score'])
-            # if grades[user] < score:
-            #     grades[user] = score
     return grades
 
 def convert_date(datestring):
