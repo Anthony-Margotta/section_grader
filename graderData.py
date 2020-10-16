@@ -4,7 +4,24 @@ import csv
 
 
 class Student:
-    """Student class"""
+    """A class to represent students in the course
+
+    Attributes
+    ----------
+    name : name of the student
+    section : the discussion section the student is in
+    motivation : motivation score of the student, affects simulation
+    successes : list tracking on which assignments students scored 'correct'
+    section_start : start time of the student's discussion section
+
+    Methods
+    -------
+    attempt(week, gradebook):
+        simulates the student's attempt on a week's assignment and records
+        their score in the gradebook
+    asdict():
+        return the student name and section in a dict object
+    """
 
     def __init__(self, name, section, motivation, length):
         self.name = name
@@ -15,6 +32,9 @@ class Student:
                                                         "%Y-%m-%d-%H")
 
     def attempt(self, week, gradebook):
+        """simulates the student's attempt on a week's assignment and
+        records their score in the gradebook
+        """
         due = self.section_start + datetime.timedelta(weeks=week)
         effort = random.randrange(10) + self.motivation
         if effort > 10:
@@ -51,6 +71,7 @@ class Student:
             self.attempt(week, gradebook)
 
     def asdict(self):
+        """Return the student name and section as a dict"""
         return {'Username': self.name, 'Section': self.section['section']}
 
 
