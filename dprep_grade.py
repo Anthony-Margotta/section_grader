@@ -21,8 +21,9 @@ def get_deadlines(month, day):
         deadline_dict = csv.DictReader(deadline_file)
         first_week = {}
         for row in deadline_dict:
-            start = datetime.datetime.strptime(row["start"], "%Y-%m-%d-%H")
-            first_week[row['section']] = start
+            section_start = datetime.datetime.strptime(row["start"],
+                                                       "%Y-%m-%d-%H")
+            first_week[row['section']] = section_start
 
     date_dif = date_offset(first_week, month, day)
 
@@ -117,15 +118,13 @@ def write_gradebook(gradebook, sub_info):
 
 
 if __name__ == "__main__":
-    roster = get_roster('roster.csv')
-    sub_info = get_info('submission_info.csv')
-    grades = []
-
-    for path, start in sub_info.items():
+    course_roster = get_roster('roster.csv')
+    submission_info = get_info('submission_info.csv')
+    student_grades = []
+    for path, start in submission_info.items():
         deadline = get_deadlines(start[0], start[1])
-        submissions = get_submissions(path)
-        grade = grade_submissions(submissions, roster, deadline)
-        grades.append(grade)
-
-    gb = make_gradebook(roster, grades, sub_info)
-    write_gradebook(gb, sub_info)
+        student_submissions = get_submissions(path)
+        grade = grade_submissions(student_submissions, course_roster, deadline)
+        student_grades.append(grade)
+    gb = make_gradebook(course_roster, student_grades, submission_info)
+    write_gradebook(gb, submission_info)
