@@ -25,8 +25,8 @@ class Student:
 
     def __init__(self, name, section, motivation, length):
         self.name = name
-        self.section = section
-        self.motivation = motivation
+        self.section = section  # a dict
+        self.motivation = motivation  # an int
         self.successes = [0] * length
         self.section_start = datetime.datetime.strptime(section['start'],
                                                         "%Y-%m-%d-%H")
@@ -34,40 +34,48 @@ class Student:
     def attempt(self, week, gradebook):
         """simulates the student's attempt on a week's assignment and
         records their score in the gradebook
+
+        Note: This is currently designed to repeat until the student suceedes
+        the assignment at least once, even if that success is late. This was
+        determined to be a good balance of realism and simplicity, but could
+        be improved.
         """
         due = self.section_start + datetime.timedelta(weeks=week)
+        # randomly generated "effort" determined window for assignment attempt
         effort = random.randrange(10) + self.motivation
-        if effort > 10:
-            # due date - 3 days +- 12 hour range
+        if effort > 10:  # early
+            # due - 3 days +- 12 hour range
             attempt_date = pick_time(due, -72, 12)
-        elif effort > 5:
+        elif effort > 5:  # on time
             # due date - 12 hour range
             attempt_date = pick_time(due, -12, 12)
-        elif effort > 2:
+        elif effort > 2:  # late
             # due date + 6 hour range
             attempt_date = pick_time(due, -3, 3)
-        else:
+        else:  # very late
             # due date + 6days +- 24 hour range
             attempt_date = pick_time(due, 72, 72)
 
-        # make attempt if there's not previous successes,
-        # maybe make attempt if there are
+        # Determine if an attempt is made.
+        # An attempt is always made if the student has no successes this week.
+        # An attempt is occasionally made if the student already has succeeded.
         if random.random() < (1 - 0.9 * self.successes[week]):
-            # check if attempt is right (70% chance each time)
+            # Check if attempt is right (hardcoded 70% chance each time)
             if random.random() < 0.7:
-                self.successes[week] = 1
+                self.successes[week] = 1  # log success in attribute
                 correct = True
             else:
                 correct = False
-
+            # Appends attempt info to the Course gradebook
             gradebook.append(
                 (self.name,
                  self.section.get("label"),
-                 attempt_date.strftime("%Y-%m-%dT%H"),
+                 attempt_date.strftime("%Y-%m-%dT%H"),  # Match PrairieLearn
                  correct,
-                 week + 1)
+                 week + 1)  # Adjust for zero-based indexing
             )
-
+            # Always makes another attempt, will eventually terminate once
+            # success has been logged. P(Repeat|Success) = 0.1)
             self.attempt(week, gradebook)
 
     def asdict(self):
@@ -76,41 +84,58 @@ class Student:
 
 
 class Course:
-    """Course class"""
+    """A class to represent a course which contains students and a schedule
+
+    Attributes
+    ----------
+    length : the length of the course, in weeks
+    students : a list containing all the Students in the Course
+    submissions : a list of all the submissions that have been simulated
+
+    Methods
+    -------
+    run():
+        Simulates a semester of the course, generating student submissions
+    write_files():
+        Creates files for the course, including student submission files, and
+        a submission_info file with the paths and deadlines for each
+        assignment's submissions
+    """
 
     def __init__(self, length, sections='deadlines.csv'):
         self.length = length
         self.students = []
         self.submissions = None
 
-        if type(sections) == str:
-            with open('deadlines.csv') as deadline_file:
+        # Get sections dict either from local .csv or passed dict
+        if type(sections) is str:
+            with open(sections) as deadline_file:
                 self.sections = list(csv.DictReader(deadline_file))
         else:
             self.sections = sections
 
         self.start = self.get_start()
 
-        # Create students
+        # Create Students in each section
         for section in self.sections:
             for i in range(int(section.get("size"))):
                 name = str(random.randrange(1000000, 9999999))
-                motivation = random.randint(1, 3)
+                motivation = random.randint(1, 3)  # Used to simulate attempts
                 self.students.append(
                     Student(name, section, motivation, self.length)
                 )
 
     def run(self):
-        """simulates running a semester of the course"""
+        """Simulates running a semester of the course"""
         submissions = []
         for student in self.students:
-            for week in range(0, self.length):
+            for week in range(0, self.length):  # for each week of the Course
                 student.attempt(week=week, gradebook=submissions)
 
         self.submissions = submissions
 
     def write_files(self):
-        # Create roster file
+        """Creates files for the course necessary to run the grader"""
         with open('roster.csv', 'w', newline='') as rosterfile:
             writer = csv.DictWriter(rosterfile, ['Username', 'Section'])
             writer.writeheader()
