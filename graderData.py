@@ -176,17 +176,19 @@ class Course:
 
 
 def pick_time(target, hours_offset, hours_spread):
+    """Used by Student.attempt() to determine when the attempt is made"""
     dhours = hours_offset + random.uniform(-hours_spread, hours_spread)
     delta = datetime.timedelta(hours=dhours)
     return target + delta
 
 
-test_course = Course(length=3)
+if __name__ == "__main__":
+    test_course = Course(length=3)
 
-random.seed(0)
-test_course.run()
+    random.seed(0)
+    test_course.run()
 
-print('There were ' + str(
-    len(test_course.submissions)) + ' submissions generated')
+    print('There were ' + str(
+        len(test_course.submissions)) + ' submissions generated')
 
-test_course.write_files()
+    test_course.write_files()
