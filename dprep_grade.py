@@ -37,6 +37,8 @@ def get_deadlines(month, day):
 def date_offset(first_week, month, day):
     """Determines difference between the first week of the
     course and a specified date
+
+    @todo: Remove year hardcode
     """
     grade_week = datetime.date(year=2019, month=month, day=day)
     date_dif = grade_week - first_week['AD1'].date()
