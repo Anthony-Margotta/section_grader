@@ -183,9 +183,9 @@ def pick_time(target, hours_offset, hours_spread):
 
 
 if __name__ == "__main__":
-    test_course = Course(length=3)
-
     random.seed(0)
+
+    test_course = Course(length=3)
     test_course.run()
 
     print('There were ' + str(
