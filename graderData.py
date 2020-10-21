@@ -162,7 +162,7 @@ class Course:
             writer.writerow(['path', 'start'])
             for i, path in enumerate(file_names):
                 start = self.start + datetime.timedelta(weeks=i)
-                writer.writerow([path, start.strftime('%m-%d')])
+                writer.writerow([path, start.strftime('%Y-%m-%d')])
 
     def get_start(self):
         starts = []

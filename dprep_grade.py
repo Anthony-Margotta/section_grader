@@ -13,7 +13,7 @@ def get_roster(roster_filename):
     return roster
 
 
-def get_deadlines(month, day):
+def get_deadlines(date):
     """Returns deadline for given week's assignment based on
     the start time of each section
     """
@@ -25,7 +25,7 @@ def get_deadlines(month, day):
                                                        "%Y-%m-%d-%H")
             first_week[row['section']] = section_start
 
-    date_dif = date_offset(first_week, month, day)
+    date_dif = date_offset(first_week, date)
 
     deadlines = {}
     for sec, time in first_week.items():
@@ -34,14 +34,11 @@ def get_deadlines(month, day):
     return deadlines
 
 
-def date_offset(first_week, month, day):
+def date_offset(first_week, grade_week):
     """Determines difference between the first week of the
     course and a specified date
-
-    @todo: Remove year and section hardcoding
     """
-    grade_week = datetime.date(year=2019, month=month, day=day)
-    date_dif = grade_week - first_week['AD1'].date()
+    date_dif = grade_week.date() - sorted(first_week.values())[0].date()
     return date_dif
 
 
@@ -86,7 +83,8 @@ def get_info(info_filename):
         info_dict = csv.DictReader(info_file)
         info = {}
         for row in info_dict:
-            info[row['path']] = list(map(int, row['start'].split('-')))
+            info[row['path']] = datetime.datetime.strptime(row['start'],
+                                                           '%Y-%m-%d')
     return info
 
 
@@ -124,7 +122,7 @@ if __name__ == "__main__":
     submission_info = get_info('submission_info.csv')
     student_grades = []
     for path, start in submission_info.items():
-        deadline = get_deadlines(start[0], start[1])
+        deadline = get_deadlines(start)
         student_submissions = get_submissions(path)
         grade = grade_submissions(student_submissions, course_roster, deadline)
         student_grades.append(grade)
