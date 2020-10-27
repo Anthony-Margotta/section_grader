@@ -146,7 +146,7 @@ class Course:
         fieldnames = ['UID', 'Section', 'Submission date', 'Correct', 'week']
         file_names = []
         for w in range(1, self.length + 1):
-            file_names.append('submissions_week%i' % w)
+            file_names.append('submissions_week%i.csv' % w)
             with open(file_names[w - 1], 'w', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow(fieldnames)
