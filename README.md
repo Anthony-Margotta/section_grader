@@ -3,7 +3,7 @@
 
 It creates a grade book file ready for upload to Compass. 
 
-`graderData.py` is a script for generating fake submission data, for the purpose of testing `sectionGrader.py` and providing FERPA-compliant examples. It takes a course section `.csv` and then creates a student roster, submission info, and simulated student submissions.
+`generate_grader_data.py` is a script for generating fake submission data, for the purpose of testing `sectionGrader.py` and providing FERPA-compliant examples. It takes a course section `.csv` and then creates a student roster, submission info, and simulated student submissions.
 
 ## How to use the grader
 1. Download submissions for each assignment from PrairieLearn to a directory containing the `dprep_grade.py` script. These should be `.csv` files which include the headers `Submission Date`, `UID`, and `Correct`.
