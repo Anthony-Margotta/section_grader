@@ -18,8 +18,18 @@ It creates a grade book file ready for upload to Compass.
     - `start_date`, the date of the first time the section meets and the hour it starts, formatted `YYYY-MM-DD-HH`
 5. Run the script, `dprep_grade.py` and it will output a file `gradebook.csv`, with each row containing the usernames of each student, their score on each assignment (either `1` or `0`), and their total for all the assignments that have been graded. This file file may be uploaded directly to Compass.
 
-## Example
-Coming soon
+## Examples
+The `roster.csv` file should look like this, although usernames may be netIDs. 
+
+![roster_image](examples/roster_example.png)
+
+The `submission_info.csv` should look like this, a row for each week of submissions intended for grading
+
+![submission_info_image](examples/submission_info_example.png)
+
+The files downloaded from PraireLearn should look like this. Additional columns will be included in the download, these can be left as-is or removed.
+
+![sumbissions_image](examples/submissions_example.png)
 
 ## How to use the sample data generator
 Coming soon 
