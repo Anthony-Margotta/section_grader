@@ -37,6 +37,8 @@ It creates a grade book file ready for upload to Compass.
 5. Run the script, `dprep_grade.py` and it will output a file `gradebook.csv`, with each row containing the usernames of each student, their score on each assignment (either `1` or `0`), and their total for all the assignments that have been graded. This file file may be uploaded directly to Compass.
 
 ### File Examples
+Example files and images are included in this repository's `examples/` directory.
+
 The `roster.csv` file should look like this, although usernames may be netIDs. 
 
 ![roster_image](examples/roster_example.png)

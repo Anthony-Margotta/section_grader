@@ -134,9 +134,9 @@ class Course:
 
         self.submissions = submissions
 
-    def write_files(self):
+    def write_files(self, path=''):
         """Creates files for the course necessary to run the grader"""
-        with open('roster.csv', 'w', newline='') as rosterfile:
+        with open(path+'roster.csv', 'w', newline='') as rosterfile:
             writer = csv.DictWriter(rosterfile, ['Username', 'Section'])
             writer.writeheader()
             for student in self.students:
@@ -146,7 +146,7 @@ class Course:
         fieldnames = ['UID', 'Section', 'Submission date', 'Correct', 'week']
         file_names = []
         for w in range(1, self.length + 1):
-            file_names.append('submissions_week%i.csv' % w)
+            file_names.append(path+'submissions_week%i.csv' % w)
             with open(file_names[w - 1], 'w', newline='') as csvfile:
                 writer = csv.writer(csvfile)
                 writer.writerow(fieldnames)
@@ -157,7 +157,7 @@ class Course:
                         writer.writerow(self.submissions[r])
 
         # Create submission info file
-        with open('submission_info.csv', 'w', newline='') as infofile:
+        with open(path+'submission_info.csv', 'w', newline='') as infofile:
             writer = csv.writer(infofile)
             writer.writerow(['path', 'start'])
             for i, path in enumerate(file_names):
@@ -191,4 +191,4 @@ if __name__ == "__main__":
     print('There were ' + str(
         len(test_course.submissions)) + ' submissions generated')
 
-    test_course.write_files()
+    test_course.write_files(path='examples/')
