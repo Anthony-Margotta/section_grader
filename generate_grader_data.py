@@ -70,7 +70,7 @@ class Student:
             gradebook.append(
                 (self.name,
                  self.section.get("label"),
-                 attempt_date.strftime("%Y-%m-%dT%H"),  # Match PrairieLearn
+                 attempt_date.strftime("%Y-%m-%dT%H:%M:%S-05"),  # Match PL
                  correct,
                  week + 1)  # Adjust for zero-based indexing
             )

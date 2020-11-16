@@ -1,26 +1,26 @@
 # README
 
 ## Basic Usage
-For TAM 251 TAs at UIUC looking to grade pre-discussion assingments:
+For TAM 251 instructors at UIUC looking to grade pre-discussion assignments:
 - Download `dprep_grade.py`
 - Follow  ["How to use the grader"](#how-to-use-the-grader) instructions below
 
 ## Contents of this Repository
 
 ### What is `dprep_grade.py`?
-`dprep_grade.py` is a script for evaluating pre-discussion assignment submissions for TAM 251 at the University of Illinois Urbana-Champaign. It works by looking at provided submission files (as CSV files) downloaded from PrairieLearn as well as three files (also as CSVs) providing relevant course information (student roster, course sections, submission info).
+`dprep_grade.py` is a script for evaluating pre-discussion assignment submissions for [TAM 251](https://courses.physics.illinois.edu/tam251) at the University of Illinois Urbana-Champaign. It works by looking at provided submission files (as CSV files) downloaded from PrairieLearn as well as three files (also as CSVs) providing relevant course information (student roster, course sections, submission info).
 
 It creates a grade book file ready for upload to Compass. 
 
 ### What is `generate_grader_data.py`?
-`generate_grader_data.py` is a script for generating fake submission data, for the purpose of testing `sectionGrader.py` and providing FERPA-compliant examples. It takes a course section CSV and then creates a student roster, submission info, and simulated student submissions.
+`generate_grader_data.py` is a script for generating fake submission data, for the purpose of testing `sectionGrader.py` and providing examples that contain no information relating to real students. It takes a course section CSV and then creates a student roster, submission info, and simulated student submissions.
 
 ### Other files
 - `.idea/` directory is a collection of project files used by the PyCharm IDE, where this project was completed
-- `examples/` directoy containing example images for the data used by the grader
+- `examples/` directory containing example images for the data used by the grader
 
 **Standard Github Files**
-- `.gitingore` files to be ignored by git versioning
+- `.gitignore` files to be ignored by git versioning
 - `README.md` the file that contains this text you are reading
 
 ## How to use the grader
@@ -39,14 +39,17 @@ It creates a grade book file ready for upload to Compass.
 ### File Examples
 Example files and images are included in this repository's `examples/` directory.
 
+#### Roster
 The `roster.csv` file should look like this, although usernames may be netIDs. 
 
 ![roster_image](examples/roster_example.png)
 
+#### Submisssion Info
 The `submission_info.csv` should look like this, a row for each week of submissions intended for grading
 
 ![submission_info_image](examples/submission_info_example.png)
 
+#### PraireLearn Submissions
 The files downloaded from PraireLearn should look like this. Additional columns will be included in the download, these can be left as-is or removed.
 
 ![sumbissions_image](examples/submissions_example.png)
@@ -59,23 +62,23 @@ Coming soon
 ### Roster file: `roster.csv`
 - Accepted by: `get roster()`
 - Opened as `roster.csv`  
-'Username': str # Student usernames  
-'Section': str : # Student sections
+`Username`: string, student usernames  
+`Section`: str, student sections, 3 characters
 
 ### Submission files
 - Loaded by: `get_submissions()`  
-- Accepted by: `grade_submissions`
-'Submissions date': str # Date format is `YYYY-MM-DDTHH:MM:SS-05`  
-'UID': str # formatted as netid@illinois.edu  
-'Correct': bool # Whether or not submission is correct
+- Accepted by: `grade_submissions`  
+`Submissions date`: str # Date format is `YYYY-MM-DDTHH:MM:SS-05`  
+`UID`: string, formatted as netid@illinois.edu  
+`Correct`: boolean, whether or not submission is correct
 
 ### Submission Info file: `submission_info.csv`
-- Accepted by: `get_info(info_filename)`
-'Path': str # Path to submission files  
-'Start' str # Date format is `MM-DD`
+- Accepted by: `get_info(info_filename)`  
+`Path`: string, relative path to submission files  
+`Start` string, date format is `MM-DD`
 
 ### Deadlines file: `deadlines.csv`  
 - Accepted by `get_deadlines()`
-Should have
-'section': str
-'start_date': str # Date format is YYYY-MM-DD-HH
+Should have  
+`section`: string, 3 characters  
+`start_date`: string, date format is YYYY-MM-DD-HH
