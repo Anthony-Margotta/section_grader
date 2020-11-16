@@ -118,8 +118,16 @@ def write_gradebook(gradebook, sub_info):
 
 
 if __name__ == "__main__":
-    course_roster = get_roster('roster.csv')
-    submission_info = get_info('submission_info.csv')
+    try:
+        course_roster = get_roster('roster.csv')
+    except FileNotFoundError:
+        course_roster = get_roster('examples/roster.csv')
+        print('roster.csv retrieved from examples directory!')
+    try:
+        submission_info = get_info('submission_info.csv')
+    except FileNotFoundError:
+        submission_info = get_info('examples/submission_info.csv')
+        print('submission_info.csv file retrieved from examples directory!')
     student_grades = []
     for path, start in submission_info.items():
         deadline = get_deadlines(start)
