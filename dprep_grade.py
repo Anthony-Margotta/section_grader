@@ -9,7 +9,6 @@ def get_roster(roster_filename):
         roster = {}
         for row in roster_dict:
             roster[row['Username']] = row['Section'][-3:]
-            # roster[row['Score']] = 0
     return roster
 
 

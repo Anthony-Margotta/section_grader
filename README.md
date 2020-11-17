@@ -8,12 +8,12 @@ For TAM 251 instructors at UIUC looking to grade pre-discussion assignments:
 ## Contents of this Repository
 
 ### What is `dprep_grade.py`?
-`dprep_grade.py` is a script for evaluating pre-discussion assignment submissions for [TAM 251](https://courses.physics.illinois.edu/tam251) at the University of Illinois Urbana-Champaign. It works by looking at provided submission files (as CSV files) downloaded from PrairieLearn as well as three files (also as CSVs) providing relevant course information (student roster, course sections, submission info).
+`dprep_grade.py` is a script for evaluating pre-discussion assignment submissions for [TAM 251](https://courses.physics.illinois.edu/tam251) at the University of Illinois Urbana-Champaign. The intended deadlines for these assignments are the start of discussion section, so they vary for each student depending on which section they are enrolled in. Assignments submitted for PraireLearn are not able to be graded in this staggered manner, this script is intended to provide that functionality to TAs for the course. It works by looking at provided submission files (as CSV files) downloaded from PrairieLearn as well as three files (also as CSVs) providing relevant course information (student roster, course sections, submission info).
 
 It creates a grade book file ready for upload to Compass. 
 
 ### What is `generate_grader_data.py`?
-`generate_grader_data.py` is a script for generating fake submission data, for the purpose of testing `sectionGrader.py` and providing examples that contain no information connected to real students. It takes a course section CSV and then creates a student roster, submission info, and simulated student submissions.
+`generate_grader_data.py` is a script for generating fake submission data, for the purpose of testing `sectionGrader.py` and providing examples that contain no information connected to real students. It takes a course section CSV and then creates a student roster, submission info, and simulated student submissions. Anyone concerned only with grading assignments can ignore this entirely.
 
 ### Other files
 - `.idea/` directory is a collection of project files used by the PyCharm IDE, where this project was completed
@@ -24,19 +24,32 @@ It creates a grade book file ready for upload to Compass.
 - `README.md` the file that contains this text you are reading
 
 ## How to use the grader
-1. **Download submissions** for each assignment from PrairieLearn to a directory containing the `dprep_grade.py` script. These should be CSV files which include the headers: `Submission Date`, `UID`, and `Correct`.
-2. **Create course roster file**, `roster.csv`, in the same directory. This can be easily accomplished by downloading a record from Compass and removing unnecessary columns. The two columns that must be included are:
+1. **Download submissions** for each assignment from PrairieLearn to a directory containing the `dprep_grade.py` script. These should be CSV files which include the headers:  
+    `Submission Date`, `UID`, and `Correct`.
+
+2. **Create course roster file**, `roster.csv`, in the same directory. An appropriate file may be easily obtained from downloading the compass grade book and deleting extraneous columns. Extra columns will be ignored, so it's recommended that you keep as many columns as are needed to make the file easy to read or reference; first and last names are useful for this purpose  .
+    The two columns that must be included are:
     - `Username`, the unique identifier for each student, usually a NetID
-    - `Section`, the 3-letter name of the discussion section the student is in (Note: Compass includes other information in the section column, this can be left in as long as the first 3 characters are the section code)
+    - `Section`, the 3-letter name of the discussion section the student is in  
+    
+    **Note**: Compass includes other information in the section column, this can be left in as long as the first 3 characters are the section code  
+
 3.  **Create a submission info file**, `submission_info.csv`, in the same directory, with two columns:
     - `path`, each row containing the path to a submission file intended for grading.
     - `start`, each row containing the date on which the first section meets the week the assignment is due; formatted `YYYY-MM-DD`
-    (This start date is used to calculate the deadline for each section for each assignment)
+    
+    The script will determine whether or not each student had a qualifying submission (ie. One which was both correct and submitted before the deadline calculated from the provided start date for the week).
+
 4. **Create a deadlines file**, `deadlines.csv`, in the same directory,  with two columns:
     - `section`, the 3-letter name of each section of the course
-    - `start_date`, the date of the first time the section meets in the semester and the hour it starts, formatted `YYYY-MM-DD-HH`.
-    (This start date is used to determine what day of the week and time to set the deadline for each section)
+    - `start_date`, the date of the first time the section meets in the semester and the hour it starts, formatted `YYYY-MM-DD-HH`.  
+    
+    This start date is used to determine what day of the week and time to set the deadline for each section)
+
 5. **Run the script** `dprep_grade.py` and it will output a file `gradebook.csv`, with each row containing the usernames of each student, their score on each assignment (either `1` or `0`), and their total for all the assignments that have been graded. This file file may be uploaded directly to Compass or processed in a spreadsheet to sum values.
+
+    **Note**: In the case where a student switched sections mid-semester, there grades may be inaccurate. If they switched into a discussion later in the week, they may receive credit they did not deserve. If they switched earlier, they may miss points they should have earned. This cases may need to be treated manually.
+    
 ---
 ### File Examples
 Example files and screenshots are included in this repository's `examples/` directory.
