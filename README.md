@@ -42,17 +42,23 @@ Example files and images are included in this repository's `examples/` directory
 #### Roster
 The `roster.csv` file should look like this, although usernames may be netIDs. 
 
-![roster_image](examples/roster_example.png)
+<p align="center">
+<img src="examples/roster_example.png" alt="drawing" width="300"/>
+</p>
 
-#### Submisssion Info
-The `submission_info.csv` should look like this, a row for each week of submissions intended for grading
+#### Submission Info
+The `submission_info.csv` should look like this, a row for each week of submissions intended for grading. If the files are in the same directory as the script (recommended), then the "path" field should simply be the name of the submission file.
 
-![submission_info_image](examples/submission_info_example.png)
+<p align="center">
+<img src="examples/submission_info_example.png" alt="drawing" width="500"/>
+</p>
 
 #### PraireLearn Submissions
 The files downloaded from PraireLearn should look like this. Additional columns will be included in the download, these can be left as-is or removed.
 
-![sumbissions_image](examples/submissions_example.png)
+<p align="center">
+<img src="examples/submissions_example.png" alt="drawing" width="600"/>
+</p>
 
 ## How to use the sample data generator
 Coming soon 
