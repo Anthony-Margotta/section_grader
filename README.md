@@ -13,7 +13,7 @@ For TAM 251 instructors at UIUC looking to grade pre-discussion assignments:
 It creates a grade book file ready for upload to Compass. 
 
 ### What is `generate_grader_data.py`?
-`generate_grader_data.py` is a script for generating fake submission data, for the purpose of testing `sectionGrader.py` and providing examples that contain no information relating to real students. It takes a course section CSV and then creates a student roster, submission info, and simulated student submissions.
+`generate_grader_data.py` is a script for generating fake submission data, for the purpose of testing `sectionGrader.py` and providing examples that contain no information connected to real students. It takes a course section CSV and then creates a student roster, submission info, and simulated student submissions.
 
 ### Other files
 - `.idea/` directory is a collection of project files used by the PyCharm IDE, where this project was completed
@@ -24,20 +24,22 @@ It creates a grade book file ready for upload to Compass.
 - `README.md` the file that contains this text you are reading
 
 ## How to use the grader
-1. **Download submissions** for each assignment from PrairieLearn to a directory containing the `dprep_grade.py` script. These should be CSV files which include the headers `Submission Date`, `UID`, and `Correct`.
+1. **Download submissions** for each assignment from PrairieLearn to a directory containing the `dprep_grade.py` script. These should be CSV files which include the headers: `Submission Date`, `UID`, and `Correct`.
 2. **Create course roster file**, `roster.csv`, in the same directory. This can be easily accomplished by downloading a record from Compass and removing unnecessary columns. The two columns that must be included are:
     - `Username`, the unique identifier for each student, usually a NetID
     - `Section`, the 3-letter name of the discussion section the student is in (Note: Compass includes other information in the section column, this can be left in as long as the first 3 characters are the section code)
 3.  **Create a submission info file**, `submission_info.csv`, in the same directory, with two columns:
-    - `Path`, each row containing the path to a submission file intended for grading  
-    - `Start`, each row containing the date of the first day of  class the week the assignment is due; format `MM-DD`.
+    - `path`, each row containing the path to a submission file intended for grading.
+    - `start`, each row containing the date on which the first section meets the week the assignment is due; formatted `YYYY-MM-DD`
+    (This start date is used to calculate the deadline for each section for each assignment)
 4. **Create a deadlines file**, `deadlines.csv`, in the same directory,  with two columns:
     - `section`, the 3-letter name of each section of the course
-    - `start_date`, the date of the first time the section meets and the hour it starts, formatted `YYYY-MM-DD-HH`
+    - `start_date`, the date of the first time the section meets in the semester and the hour it starts, formatted `YYYY-MM-DD-HH`.
+    (This start date is used to determine what day of the week and time to set the deadline for each section)
 5. **Run the script** `dprep_grade.py` and it will output a file `gradebook.csv`, with each row containing the usernames of each student, their score on each assignment (either `1` or `0`), and their total for all the assignments that have been graded. This file file may be uploaded directly to Compass or processed in a spreadsheet to sum values.
 ---
 ### File Examples
-Example files and images are included in this repository's `examples/` directory.
+Example files and screenshots are included in this repository's `examples/` directory.
 
 #### Roster
 The `roster.csv` file should look like this, although usernames may be netIDs. 
@@ -80,8 +82,8 @@ Coming soon
 
 ### Submission Info file: `submission_info.csv`
 - Accepted by: `get_info(info_filename)`  
-`Path`: string, relative path to submission files  
-`Start` string, date format is `MM-DD`
+`path`: string, relative path to submission files  
+`start` string, date format is `MM-DD`
 
 ### Deadlines file: `deadlines.csv`  
 - Accepted by `get_deadlines()`
